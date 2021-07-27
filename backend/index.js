@@ -18,6 +18,7 @@ app.use(requestLogger)
 
 const blockUrl = 'https://ismyserverblocked.com/check'
 const serverUrl = 'https://api.mcsrvstat.us/2'
+const offlineModeUrl = 'https://ismyserverblocked.com/ping'
 
 app.get(`/api/serverinfo/:url`, async (request, response) => {
     const url = request.params.url
@@ -31,6 +32,13 @@ app.get('/api/blockinfo/:url', async (request, response) => {
     const blockInfo = await axios.get(`${blockUrl}/${url}`)
 
     response.json(blockInfo.data)
+})
+
+app.get('/api/offlineinfo/:url', async (request, response) => {
+    const url = request.params.url
+    const offlineInfo = await axios.get(`${offlineModeUrl}/${url}`)
+
+    response.json(offlineInfo.data)
 })
 
 app.listen(process.env.PORT, () => {
