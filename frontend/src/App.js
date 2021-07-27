@@ -3,10 +3,31 @@ import * as XLSX from 'xlsx'
 import DataTable from 'react-data-table-component'
 import axios from 'axios'
 import { Container } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
 import Input from './components/Input'
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+        '& > * + *': {
+            marginLeft: theme.spacing(2),
+        },
+    },
+}))
+
+const CircularIndeterminate = () => {
+    const classes = useStyles()
+
+    return (
+        <div className={classes.root}>
+            <CircularProgress />
+        </div>
+    )
+}
 
 const columns = [
     {
@@ -54,10 +75,11 @@ const columns = [
 
 const App = () => {
     const [data, setData] = useState([])
+    const [pending, setPending] = useState(false)
 
     const processData = async dataString => {
         const list = dataString.split(/\r\n|\n/)
-
+        setPending(true)
         let newList = []
         let newData = {}
 
@@ -118,6 +140,7 @@ const App = () => {
             } else {
                 // LAST DATA POINT IN LIST ARRAY IS QUOTATIONS -- THIS EVENT WILL TRIGGER STATE UPDATE
                 setData(newList)
+                setPending(false)
             }
         }
     }
@@ -152,6 +175,8 @@ const App = () => {
                     columns={columns}
                     data={data}
                     fixedHeader
+                    progressPending={pending}
+                    progressComponent={<CircularIndeterminate />}
                 />
             </div>
         </Container>
