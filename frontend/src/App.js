@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import * as XLSX from 'xlsx'
 import DataTable from 'react-data-table-component'
 import axios from 'axios'
+import { Container } from '@material-ui/core'
 
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
@@ -140,18 +141,20 @@ const App = () => {
     }
     console.log('data: ', data)
     return (
-        <div>
-            <Title />
-            <Subtitle />
-            <Input onChange={handleFileUpload} />
-            <DataTable
-                title='Server Information'
-                highlightOnHover
-                columns={columns}
-                data={data}
-                fixedHeader
-            />
-        </div>
+        <Container>
+            <div>
+                <Title />
+                <Subtitle />
+                <Input onChange={handleFileUpload} />
+                <DataTable
+                    title='Server Information'
+                    highlightOnHover
+                    columns={columns}
+                    data={data}
+                    fixedHeader
+                />
+            </div>
+        </Container>
     )
 }
 
