@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import * as XLSX from 'xlsx'
-import DataTable from 'react-data-table-component'
 import axios from 'axios'
+import { DataGrid } from '@material-ui/data-grid'
 import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { ArrowDownward } from '@material-ui/icons'
 
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
@@ -30,145 +29,121 @@ const CircularIndeterminate = () => {
     )
 }
 
-const sortIcon = <ArrowDownward />
-
 const columns = [
     {
-        name: 'Hostname',
-        selector: 'hostname',
-        sortable: true,
+        headerName: 'Hostname',
+        field: 'hostname',
+        editable: true,
+        width: 125,
     },
     {
-        name: 'Online',
-        selector: 'online',
-        sortable: true,
-    },
-    {
-        name: 'Offline Mode',
-        selector: 'offlineMode',
-        sortable: true,
-    },
-    {
-        name: 'Ip',
-        selector: 'ip',
-        sortable: true,
-    },
-    {
-        name: 'Version',
-        selector: 'version',
-        sortable: true,
+        headerName: 'Online',
+        field: 'online',
+        editable: true,
+        width: 100,
     },
 
     {
-        name: 'PlayersOnline',
-        selector: 'playersOnline',
-        sortable: true,
+        headerName: 'Ip',
+        field: 'ip',
+        editable: true,
+        width: 125,
     },
     {
-        name: 'PlayersMax',
-        selector: 'playersMax',
-        sortable: true,
+        headerName: 'Version',
+        field: 'version',
+        editable: true,
+        width: 125,
+    },
+
+    {
+        headerName: 'PlayersOnline',
+        field: 'playersOnline',
+        editable: true,
+        width: 150,
     },
     {
-        name: 'Blocked',
-        selector: 'blocked',
-        sortable: true,
+        headerName: 'PlayersMax',
+        field: 'playersMax',
+        editable: true,
+        width: 150,
     },
     {
-        name: 'BlockTime',
-        selector: 'blockTime',
-        sortable: true,
+        headerName: 'Blocked',
+        field: 'blocked',
+        editable: true,
+        width: 125,
+    },
+    {
+        headerName: 'BlockTime',
+        field: 'blockTime',
+        editable: true,
+        width: 125,
+    },
+    {
+        headerName: 'Offline Mode',
+        field: 'offlineMode',
+        editable: true,
+        width: 150,
     },
 ]
+
+const rows = [
+    {
+        id: 1,
+        hostname: 'Jartex',
+        online: 'yes',
+        offlineMode: 'no',
+        ip: '1111111',
+        version: '1.1',
+        playersOnline: 11,
+        playersMax: 111,
+        blocked: 'no',
+        blockTime: 'N/A',
+    },
+]
+
+const DataTable = ({ data }) => {
+    return (
+        <div>
+            <DataGrid
+                columns={columns}
+                rows={rows}
+                autoHeight={true}
+                autoPageSize={true}
+                disableColumnMenu={true}
+                columnBuffer={columns.length}
+            />
+        </div>
+    )
+}
 
 const App = () => {
     const [data, setData] = useState([])
     const [pending, setPending] = useState(false)
 
-    const processData = async dataString => {
-        setPending(true)
-        const list = dataString.split(/\r\n|\n/)
-        let newList = []
-        let newData = {}
-
-        // fetch data from API
-
-        for (let i = 0; i < list.length; i++) {
-            if (list[i] !== '') {
-                console.log('url searched: ', `${list[i]}`)
-                try {
-                    const api_data = await axios.get(
-                        `http://localhost:8080/api/serverinfo/${list[i]}`
-                    )
-                    const block_data = await axios.get(
-                        `http://localhost:8080/api/blockinfo/${list[i]}`
-                    )
-
-                    const api_info = api_data.data
-                    const block_info = block_data.data
-                    // build newData obj
-
-                    // CREATE WORK AROUND FOR BOOLEAN IN JSON DATA
-                    if (api_info.online === false) {
-                        newData = {
-                            hostname: api_info.hostname,
-                            ip: api_info.ip,
-                            version: 'N/A',
-                            online: 'no',
-                            playersOnline: 'N/A',
-                            playersMax: 'N/A',
-                            blocked:
-                                block_info.blocked === false ? 'no' : 'yes',
-                            blockTime:
-                                block_info.lastBlocked !== null
-                                    ? block_info.lastBlocked
-                                    : 'N/A',
-                        }
-                    } else {
-                        newData = {
-                            hostname: api_info.hostname,
-                            ip: api_info.ip,
-                            version: api_info.version,
-                            online: 'yes',
-                            playersOnline: api_info.players.online,
-                            playersMax: api_info.players.max,
-                            blocked:
-                                block_info.blocked === false ? 'no' : 'yes',
-                            blockTime:
-                                block_info.lastBlocked !== null
-                                    ? block_info.lastBlocked
-                                    : 'N/A',
-                        }
-                    }
-                    // PUSH DATA TO NEW LIST
-                    newList.push(newData)
-                } catch (error) {
-                    console.log('error :', error.message)
-                }
-            } else {
-                // LAST DATA POINT IN LIST ARRAY IS QUOTATIONS -- THIS EVENT WILL TRIGGER STATE UPDATE
-                setData(newList)
-                setPending(false)
-            }
-        }
-    }
+    // const processData = data => {
+    //     const list = data.split(/\r\n|\n/)
+    //     console.log(list)
+    // }
 
     const handleFileUpload = e => {
         e.preventDefault()
-        const file = e.target.files[0]
-        const reader = new FileReader()
-        reader.onload = e => {
-            // PARSE DATA
-            const bstr = e.target.result
-            const workbook = XLSX.read(bstr, { type: 'binary' })
-            // GET FIRST WORKSHEET
-            const wsname = workbook.SheetNames[0]
-            const ws = workbook.Sheets[wsname]
-            // CONVERT ARRAY OF ARRAYS
-            const data = XLSX.utils.sheet_to_csv(ws, { header: 1 })
-            processData(data)
-        }
-        reader.readAsBinaryString(file)
+        // const file = e.target.files[0]
+        // const reader = new FileReader()
+        // reader.onload = e => {
+        //     // PARSE DATA
+        //     const bstr = e.target.result
+        //     const workbook = XLSX.read(bstr, { type: 'binary' })
+        //     // GET FIRST WORKSHEET
+        //     const wsname = workbook.SheetNames[0]
+        //     const ws = workbook.Sheets[wsname]
+        //     // CONVERT ARRAY OF ARRAYS
+        //     const data = XLSX.utils.sheet_to_csv(ws, { header: 1 })
+        //     console.log('data from file upload: ', data)
+        //     processData(data)
+        // }
+        // reader.readAsBinaryString(file)
     }
     console.log('data: ', data)
     return (
@@ -177,16 +152,7 @@ const App = () => {
                 <Title />
                 <Subtitle />
                 <Input onChange={handleFileUpload} />
-                <DataTable
-                    title='Server Information'
-                    highlightOnHover
-                    columns={columns}
-                    data={data}
-                    fixedHeader
-                    sortIcon={sortIcon}
-                    progressPending={pending}
-                    progressComponent={<CircularIndeterminate />}
-                />
+                <DataTable columns={columns} rows={rows} />
             </div>
         </Container>
     )
