@@ -1,0 +1,6 @@
+GET http://localhost:8080/api/blockinfo
+Content-Type: application/json
+
+{
+    "url": "eu.shotbow.net"
+}
