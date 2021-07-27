@@ -5,6 +5,7 @@ import axios from 'axios'
 import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { ArrowDownward } from '@material-ui/icons'
 
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
@@ -29,6 +30,8 @@ const CircularIndeterminate = () => {
     )
 }
 
+const sortIcon = <ArrowDownward />
+
 const columns = [
     {
         name: 'Hostname',
@@ -38,6 +41,11 @@ const columns = [
     {
         name: 'Online',
         selector: 'online',
+        sortable: true,
+    },
+    {
+        name: 'Offline Mode',
+        selector: 'offlineMode',
         sortable: true,
     },
     {
@@ -78,8 +86,8 @@ const App = () => {
     const [pending, setPending] = useState(false)
 
     const processData = async dataString => {
-        const list = dataString.split(/\r\n|\n/)
         setPending(true)
+        const list = dataString.split(/\r\n|\n/)
         let newList = []
         let newData = {}
 
@@ -175,6 +183,7 @@ const App = () => {
                     columns={columns}
                     data={data}
                     fixedHeader
+                    sortIcon={sortIcon}
                     progressPending={pending}
                     progressComponent={<CircularIndeterminate />}
                 />
