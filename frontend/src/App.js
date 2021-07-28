@@ -11,7 +11,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
-import CircularProgress from '@material-ui/core/CircularProgress'
+// import CircularProgress from '@material-ui/core/CircularProgress'
 
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
@@ -65,8 +65,37 @@ const createData = (
         offlineMode,
     }
 }
+const isOnline = data => (data.online === true ? 'yes' : 'no')
+
+const fetchData = async name => {
+    console.log('fetchData name: ', name)
+    const server_data = await axios.get(
+        `http://localhost:8080/api/serverinfo/${name.name}`
+    )
+
+    const block_data = await axios.get(
+        `http://localhost:8080/api/blockinfo/${name.name}`
+    )
+
+    const offline_data = await axios.get(
+        `http://localhost:8080/api/offlineinfo/${name.name}`
+    )
+
+    const serverInfo = server_data.data
+    const blockInfo = block_data.data
+    const offlineInfo = offline_data.data
+    console.log('fetch data: ', serverInfo, blockInfo, offlineInfo)
+}
+
+const DataFetchRow = name => {
+    console.log('DataFetchRow props.name: ', name)
+    fetchData(name)
+
+    return <TableCell>hello</TableCell>
+}
 
 const DataTable = ({ names }) => {
+    console.log('DataTable names props: ', names)
     const classes = useStyles()
 
     return (
@@ -89,6 +118,7 @@ const DataTable = ({ names }) => {
                     {names.map(name => (
                         <TableRow key={name}>
                             <TableCell component='th'>{name}</TableCell>
+                            <DataFetchRow name={name}></DataFetchRow>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -113,7 +143,10 @@ const App = () => {
     const processData = data => {
         const list = data.split(/\r\n|\n/)
         console.log('list: ', list)
-        setNames(list)
+        const filteredList = list.filter(e => e !== '')
+        console.log('filteredList: ', filteredList)
+
+        setNames(filteredList)
     }
 
     const handleFileUpload = e => {

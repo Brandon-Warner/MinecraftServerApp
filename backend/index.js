@@ -21,6 +21,7 @@ const serverUrl = 'https://api.mcsrvstat.us/2'
 const offlineModeUrl = 'https://ismyserverblocked.com/ping'
 
 app.get(`/api/serverinfo/:url`, async (request, response) => {
+    console.log('request params: ', request.params)
     const url = request.params.url
     const serverInfo = await axios.get(`${serverUrl}/${url}`)
 
@@ -28,6 +29,7 @@ app.get(`/api/serverinfo/:url`, async (request, response) => {
 })
 
 app.get('/api/blockinfo/:url', async (request, response) => {
+    console.log('request params: ', request.params)
     const url = request.params.url
     const blockInfo = await axios.get(`${blockUrl}/${url}`)
 
@@ -35,6 +37,7 @@ app.get('/api/blockinfo/:url', async (request, response) => {
 })
 
 app.get('/api/offlineinfo/:url', async (request, response) => {
+    console.log('request params: ', request.params)
     const url = request.params.url
     const offlineInfo = await axios.get(`${offlineModeUrl}/${url}`)
 
