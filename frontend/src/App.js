@@ -66,7 +66,7 @@ const createData = (
     }
 }
 
-const BasicTable = () => {
+const DataTable = ({ names }) => {
     const classes = useStyles()
 
     return (
@@ -74,16 +74,33 @@ const BasicTable = () => {
             <Table className={classes.table} aria-label='Server Info'>
                 <TableHead>
                     <TableRow>
-                        <TableCell></TableCell>
+                        <TableCell>Hostname</TableCell>
+                        <TableCell>Online</TableCell>
+                        <TableCell>Ip</TableCell>
+                        <TableCell>Version</TableCell>
+                        <TableCell>Players Online</TableCell>
+                        <TableCell>Players Max</TableCell>
+                        <TableCell>Blocked</TableCell>
+                        <TableCell>Blocked Time</TableCell>
+                        <TableCell>Offline Mode</TableCell>
                     </TableRow>
                 </TableHead>
+                <TableBody>
+                    {names.map(name => (
+                        <TableRow key={name}>
+                            <TableCell component='th'>{name}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
             </Table>
         </TableContainer>
     )
 }
 
 const App = () => {
+    const [names, setNames] = useState([])
     const [data, setData] = useState([])
+
     // const [pending, setPending] = useState(false)
 
     // const loadServerNames = data => {
@@ -93,27 +110,29 @@ const App = () => {
     //     }
     // }
 
-    // const processData = data => {
-
-    // }
+    const processData = data => {
+        const list = data.split(/\r\n|\n/)
+        console.log('list: ', list)
+        setNames(list)
+    }
 
     const handleFileUpload = e => {
         e.preventDefault()
-        // const file = e.target.files[0]
-        // const reader = new FileReader()
-        // reader.onload = e => {
-        //     // PARSE DATA
-        //     const bstr = e.target.result
-        //     const workbook = XLSX.read(bstr, { type: 'binary' })
-        //     // GET FIRST WORKSHEET
-        //     const wsname = workbook.SheetNames[0]
-        //     const ws = workbook.Sheets[wsname]
-        //     // CONVERT ARRAY OF ARRAYS
-        //     const data = XLSX.utils.sheet_to_csv(ws, { header: 1 })
-        //     console.log('data from file upload: ', data)
-        //     processData(data)
-        // }
-        // reader.readAsBinaryString(file)
+        const file = e.target.files[0]
+        const reader = new FileReader()
+        reader.onload = e => {
+            // PARSE DATA
+            const bstr = e.target.result
+            const workbook = XLSX.read(bstr, { type: 'binary' })
+            // GET FIRST WORKSHEET
+            const wsname = workbook.SheetNames[0]
+            const ws = workbook.Sheets[wsname]
+            // CONVERT ARRAY OF ARRAYS
+            const data = XLSX.utils.sheet_to_csv(ws, { header: 1 })
+            console.log('data from file upload: ', data)
+            processData(data)
+        }
+        reader.readAsBinaryString(file)
     }
     console.log('data after render: ', data)
 
@@ -123,7 +142,7 @@ const App = () => {
                 <Title />
                 <Subtitle />
                 <Input onChange={handleFileUpload} />
-                <BasicTable />
+                <DataTable names={names} />
             </div>
         </Container>
     )
