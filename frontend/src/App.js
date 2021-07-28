@@ -34,7 +34,7 @@ const columns = [
         headerName: 'Hostname',
         field: 'hostname',
         editable: true,
-        width: 125,
+        width: 155,
     },
     {
         headerName: 'Online',
@@ -104,11 +104,12 @@ const rows = [
 ]
 
 const DataTable = ({ data }) => {
+    console.log('data props to DataGrid: ', data)
     return (
         <div>
             <DataGrid
                 columns={columns}
-                rows={rows}
+                rows={data}
                 autoHeight={true}
                 autoPageSize={true}
                 disableColumnMenu={true}
@@ -120,39 +121,70 @@ const DataTable = ({ data }) => {
 
 const App = () => {
     const [data, setData] = useState([])
-    const [pending, setPending] = useState(false)
+    // const [pending, setPending] = useState(false)
 
-    // const processData = data => {
-    //     const list = data.split(/\r\n|\n/)
-    //     console.log(list)
+    // const loadServerNames = data => {
+    //     for (let i = 0; i < data.lenght; i++) {
+    //         const name = data[i].toString()
+    //         console.log('name: ', name)
+    //     }
     // }
+
+    const processData = data => {
+        const generateId = () => {
+            return Math.floor(Math.random() * 1000000)
+        }
+        let newList = []
+        const list = data.split(/\r\n|\n/)
+        for (let i = 0; i < list.length; i++) {
+            let newData = {}
+            const name = list[i].toString()
+            console.log('name: ', name)
+            newData = {
+                id: generateId(),
+                hostname: name,
+                online: '',
+                ip: '',
+                version: '',
+                playersOnline: '',
+                playersMax: '',
+                blocked: '',
+                blockTime: '',
+                offlineMode: '',
+            }
+            console.log('newData: ', newData)
+            newList = [...newList, newData]
+        }
+        setData(newList)
+    }
 
     const handleFileUpload = e => {
         e.preventDefault()
-        // const file = e.target.files[0]
-        // const reader = new FileReader()
-        // reader.onload = e => {
-        //     // PARSE DATA
-        //     const bstr = e.target.result
-        //     const workbook = XLSX.read(bstr, { type: 'binary' })
-        //     // GET FIRST WORKSHEET
-        //     const wsname = workbook.SheetNames[0]
-        //     const ws = workbook.Sheets[wsname]
-        //     // CONVERT ARRAY OF ARRAYS
-        //     const data = XLSX.utils.sheet_to_csv(ws, { header: 1 })
-        //     console.log('data from file upload: ', data)
-        //     processData(data)
-        // }
-        // reader.readAsBinaryString(file)
+        const file = e.target.files[0]
+        const reader = new FileReader()
+        reader.onload = e => {
+            // PARSE DATA
+            const bstr = e.target.result
+            const workbook = XLSX.read(bstr, { type: 'binary' })
+            // GET FIRST WORKSHEET
+            const wsname = workbook.SheetNames[0]
+            const ws = workbook.Sheets[wsname]
+            // CONVERT ARRAY OF ARRAYS
+            const data = XLSX.utils.sheet_to_csv(ws, { header: 1 })
+            console.log('data from file upload: ', data)
+            processData(data)
+        }
+        reader.readAsBinaryString(file)
     }
-    console.log('data: ', data)
+    console.log('data after render: ', data)
+
     return (
         <Container>
             <div>
                 <Title />
                 <Subtitle />
                 <Input onChange={handleFileUpload} />
-                <DataTable columns={columns} rows={rows} />
+                <DataTable data={data} />
             </div>
         </Container>
     )
