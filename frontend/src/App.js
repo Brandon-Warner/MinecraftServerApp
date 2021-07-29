@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
-import axios from 'axios'
-
+import fetchHelper from './services/servers'
 import { Container } from '@material-ui/core'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -42,60 +41,20 @@ const useStyles = makeStyles({
     },
 })
 
-const createData = (
-    hostname,
-    online,
-    ip,
-    version,
-    playersOnline,
-    playersMax,
-    blocked,
-    blockTime,
-    offlineMode
-) => {
-    return {
-        hostname,
-        online,
-        ip,
-        version,
-        playersOnline,
-        playersMax,
-        blocked,
-        blockTime,
-        offlineMode,
-    }
-}
-const isOnline = data => (data.online === true ? 'yes' : 'no')
-
-const fetchData = async name => {
-    console.log('fetchData name: ', name)
-    const server_data = await axios.get(
-        `http://localhost:8080/api/serverinfo/${name.name}`
-    )
-
-    const block_data = await axios.get(
-        `http://localhost:8080/api/blockinfo/${name.name}`
-    )
-
-    const offline_data = await axios.get(
-        `http://localhost:8080/api/offlineinfo/${name.name}`
-    )
-
-    const serverInfo = server_data.data
-    const blockInfo = block_data.data
-    const offlineInfo = offline_data.data
-    console.log('fetch data: ', serverInfo, blockInfo, offlineInfo)
+const DataRow = ({ name, data, setData }) => {
+    console.log('DataRow name prop: ', name)
+    useEffect(() => {
+        fetchHelper.fetchData(name).then(response => setData(response))
+        console.log('firing useEffect')
+    }, [])
+    console.log('data: ', data)
+    return <TableCell>{data.online}</TableCell>
 }
 
-const DataFetchRow = name => {
-    console.log('DataFetchRow props.name: ', name)
-    fetchData(name)
-
-    return <TableCell>hello</TableCell>
-}
-
-const DataTable = ({ names }) => {
+const DataTable = ({ names, data, setData }) => {
     console.log('DataTable names props: ', names)
+    console.log('DataTable data props: ', data)
+
     const classes = useStyles()
 
     return (
@@ -116,9 +75,13 @@ const DataTable = ({ names }) => {
                 </TableHead>
                 <TableBody>
                     {names.map(name => (
-                        <TableRow key={name}>
+                        <TableRow key={name} scope='row'>
                             <TableCell component='th'>{name}</TableCell>
-                            <DataFetchRow name={name}></DataFetchRow>
+                            <DataRow
+                                name={name}
+                                data={data}
+                                setData={setData}
+                            />
                         </TableRow>
                     ))}
                 </TableBody>
@@ -130,24 +93,6 @@ const DataTable = ({ names }) => {
 const App = () => {
     const [names, setNames] = useState([])
     const [data, setData] = useState([])
-
-    // const [pending, setPending] = useState(false)
-
-    // const loadServerNames = data => {
-    //     for (let i = 0; i < data.lenght; i++) {
-    //         const name = data[i].toString()
-    //         console.log('name: ', name)
-    //     }
-    // }
-
-    const processData = data => {
-        const list = data.split(/\r\n|\n/)
-        console.log('list: ', list)
-        const filteredList = list.filter(e => e !== '')
-        console.log('filteredList: ', filteredList)
-
-        setNames(filteredList)
-    }
 
     const handleFileUpload = e => {
         e.preventDefault()
@@ -163,11 +108,13 @@ const App = () => {
             // CONVERT ARRAY OF ARRAYS
             const data = XLSX.utils.sheet_to_csv(ws, { header: 1 })
             console.log('data from file upload: ', data)
-            processData(data)
+            // processData(data)
+            const list = data.split(/\r\n|\n/)
+            const filteredList = list.filter(e => e !== '' && e !== undefined)
+            setNames(filteredList)
         }
         reader.readAsBinaryString(file)
     }
-    console.log('data after render: ', data)
 
     return (
         <Container>
@@ -175,7 +122,7 @@ const App = () => {
                 <Title />
                 <Subtitle />
                 <Input onChange={handleFileUpload} />
-                <DataTable names={names} />
+                <DataTable names={names} data={data} setData={setData} />
             </div>
         </Container>
     )
