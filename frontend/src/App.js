@@ -44,11 +44,23 @@ const useStyles = makeStyles({
 const DataRow = ({ name, data, setData }) => {
     console.log('DataRow name prop: ', name)
     useEffect(() => {
-        fetchHelper.fetchData(name).then(response => setData(response))
+        fetchHelper.fetchData(name).then(response => setData(...data, response))
         console.log('firing useEffect')
     }, [])
     console.log('data: ', data)
-    return <TableCell>{data.online}</TableCell>
+    return (
+        <TableRow key={data.hostname}>
+            <TableCell>{data.hostname}</TableCell>
+            <TableCell>{data.online}</TableCell>
+            <TableCell>{data.ip}</TableCell>
+            <TableCell>{data.version}</TableCell>
+            <TableCell>{data.playersOnline}</TableCell>
+            <TableCell>{data.playersMax}</TableCell>
+            <TableCell>{data.blocked}</TableCell>
+            <TableCell>{data.blockTime}</TableCell>
+            <TableCell>{data.offlineMode}</TableCell>
+        </TableRow>
+    )
 }
 
 const DataTable = ({ names, data, setData }) => {
@@ -75,14 +87,7 @@ const DataTable = ({ names, data, setData }) => {
                 </TableHead>
                 <TableBody>
                     {names.map(name => (
-                        <TableRow key={name} scope='row'>
-                            <TableCell component='th'>{name}</TableCell>
-                            <DataRow
-                                name={name}
-                                data={data}
-                                setData={setData}
-                            />
-                        </TableRow>
+                        <DataRow name={name} data={data} setData={setData} />
                     ))}
                 </TableBody>
             </Table>
