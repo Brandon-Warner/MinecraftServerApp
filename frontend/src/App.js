@@ -41,23 +41,23 @@ const useStyles = makeStyles({
     },
 })
 
-// const DataRow = ({ name, data }) => {
-//     return (
-//         <TableRow key={data.hostname}>
-//             <TableCell>{data.hostname}</TableCell>
-//             <TableCell>{data.online}</TableCell>
-//             <TableCell>{data.ip}</TableCell>
-//             <TableCell>{data.version}</TableCell>
-//             <TableCell>{data.playersOnline}</TableCell>
-//             <TableCell>{data.playersMax}</TableCell>
-//             <TableCell>{data.blocked}</TableCell>
-//             <TableCell>{data.blockTime}</TableCell>
-//             <TableCell>{data.offlineMode}</TableCell>
-//         </TableRow>
-//     )
-// }
+const DataRow = ({ data }) => {
+    return (
+        <TableRow>
+            <TableCell>{data.hostname}</TableCell>
+            <TableCell>{data.online}</TableCell>
+            <TableCell>{data.ip}</TableCell>
+            <TableCell>{data.version}</TableCell>
+            <TableCell>{data.playersOnline}</TableCell>
+            <TableCell>{data.playersMax}</TableCell>
+            <TableCell>{data.blocked}</TableCell>
+            <TableCell>{data.blockTime}</TableCell>
+            <TableCell>{data.offlineMode}</TableCell>
+        </TableRow>
+    )
+}
 
-const DataTable = ({ names, data, setData }) => {
+const DataTable = ({ names, data }) => {
     console.log('DataTable names: ', names)
     console.log('DataTable data: ', data)
     const classes = useStyles()
@@ -77,6 +77,9 @@ const DataTable = ({ names, data, setData }) => {
                         <TableCell>Blocked Time</TableCell>
                         <TableCell>Offline Mode</TableCell>
                     </TableRow>
+                    {data.map(data => (
+                        <DataRow data={data} key={data.hostname} />
+                    ))}
                 </TableHead>
             </Table>
         </TableContainer>
