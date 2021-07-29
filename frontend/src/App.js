@@ -41,32 +41,25 @@ const useStyles = makeStyles({
     },
 })
 
-const DataRow = ({ name, data, setData }) => {
-    console.log('DataRow name prop: ', name)
-    useEffect(() => {
-        fetchHelper.fetchData(name).then(response => setData(...data, response))
-        console.log('firing useEffect')
-    }, [])
-    console.log('data: ', data)
-    return (
-        <TableRow key={data.hostname}>
-            <TableCell>{data.hostname}</TableCell>
-            <TableCell>{data.online}</TableCell>
-            <TableCell>{data.ip}</TableCell>
-            <TableCell>{data.version}</TableCell>
-            <TableCell>{data.playersOnline}</TableCell>
-            <TableCell>{data.playersMax}</TableCell>
-            <TableCell>{data.blocked}</TableCell>
-            <TableCell>{data.blockTime}</TableCell>
-            <TableCell>{data.offlineMode}</TableCell>
-        </TableRow>
-    )
-}
+// const DataRow = ({ name, data }) => {
+//     return (
+//         <TableRow key={data.hostname}>
+//             <TableCell>{data.hostname}</TableCell>
+//             <TableCell>{data.online}</TableCell>
+//             <TableCell>{data.ip}</TableCell>
+//             <TableCell>{data.version}</TableCell>
+//             <TableCell>{data.playersOnline}</TableCell>
+//             <TableCell>{data.playersMax}</TableCell>
+//             <TableCell>{data.blocked}</TableCell>
+//             <TableCell>{data.blockTime}</TableCell>
+//             <TableCell>{data.offlineMode}</TableCell>
+//         </TableRow>
+//     )
+// }
 
 const DataTable = ({ names, data, setData }) => {
-    console.log('DataTable names props: ', names)
-    console.log('DataTable data props: ', data)
-
+    console.log('DataTable names: ', names)
+    console.log('DataTable data: ', data)
     const classes = useStyles()
 
     return (
@@ -85,11 +78,6 @@ const DataTable = ({ names, data, setData }) => {
                         <TableCell>Offline Mode</TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    {names.map(name => (
-                        <DataRow name={name} data={data} setData={setData} />
-                    ))}
-                </TableBody>
             </Table>
         </TableContainer>
     )
@@ -98,6 +86,17 @@ const DataTable = ({ names, data, setData }) => {
 const App = () => {
     const [names, setNames] = useState([])
     const [data, setData] = useState([])
+
+    useEffect(() => {
+        names.map(name =>
+            fetchHelper
+                .fetchData(name)
+                .then(response => setData(data => [...data, response]))
+                .catch(e => console.log('error: ', e.message))
+        )
+
+        console.log('firing useEffect')
+    }, [names])
 
     const handleFileUpload = e => {
         e.preventDefault()
@@ -120,7 +119,8 @@ const App = () => {
         }
         reader.readAsBinaryString(file)
     }
-
+    console.log('App component names: ', names)
+    console.log('App component data: ', data)
     return (
         <Container>
             <div>
