@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 
 const Input = ({ onChange }) => {
     return (
@@ -11,7 +12,7 @@ const Input = ({ onChange }) => {
                 onChange={onChange}
                 multiple
             />
-            Upload File
+            Upload File <CloudUploadIcon></CloudUploadIcon>
         </Button>
     )
 }

@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
 import fetchHelper from './services/servers'
-import { Container } from '@material-ui/core'
+import { Container, makeStyles } from '@material-ui/core'
 
 import DataTable from './components/DataTable'
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
 import Input from './components/Input'
+
+const useStyles = makeStyles({
+    container: {
+        fontFamily: 'Roboto',
+    },
+})
 
 const App = () => {
     const [names, setNames] = useState([])
@@ -46,8 +52,9 @@ const App = () => {
     }
     console.log('App component names: ', names)
     console.log('App component data: ', data)
+    const classes = useStyles()
     return (
-        <Container>
+        <Container className={classes.container}>
             <div>
                 <Title />
                 <Subtitle />
