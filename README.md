@@ -1,6 +1,10 @@
 Tool takes .csv file containing Minecraft server urls and returns data about each server from multiple endpoints.
 Built with React, Material UI, Node.js, and Express library.
 
+To do: 
+- create hover feature for the 'Offine?' button to display offline data from new third-party API
+- more styling
+
 The app displays this page upon opening: 
 
 ![Screen Shot 2021-07-29 at 6 12 29 PM](https://user-images.githubusercontent.com/75649322/127585857-29099b7b-3062-417e-9dd3-1322ef2b5016.png)
