@@ -2,89 +2,11 @@ import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
 import fetchHelper from './services/servers'
 import { Container } from '@material-ui/core'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
-import { makeStyles } from '@material-ui/core/styles'
-// import CircularProgress from '@material-ui/core/CircularProgress'
 
+import DataTable from './components/DataTable'
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
 import Input from './components/Input'
-
-// const useStyles = makeStyles(theme => ({
-//     root: {
-//         display: 'flex',
-//         '& > * + *': {
-//             marginLeft: theme.spacing(2),
-//         },
-//     },
-// }))
-
-// const CircularIndeterminate = () => {
-//     const classes = useStyles()
-
-//     return (
-//         <div className={classes.root}>
-//             <CircularProgress />
-//         </div>
-//     )
-// }
-
-const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
-    },
-})
-
-const DataRow = ({ data }) => {
-    return (
-        <TableRow>
-            <TableCell>{data.hostname}</TableCell>
-            <TableCell>{data.online}</TableCell>
-            <TableCell>{data.ip}</TableCell>
-            <TableCell>{data.version}</TableCell>
-            <TableCell>{data.playersOnline}</TableCell>
-            <TableCell>{data.playersMax}</TableCell>
-            <TableCell>{data.blocked}</TableCell>
-            <TableCell>{data.blockTime}</TableCell>
-            <TableCell>{data.offlineMode}</TableCell>
-        </TableRow>
-    )
-}
-
-const DataTable = ({ names, data }) => {
-    console.log('DataTable names: ', names)
-    console.log('DataTable data: ', data)
-    const classes = useStyles()
-
-    return (
-        <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label='Server Info'>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Hostname</TableCell>
-                        <TableCell>Online</TableCell>
-                        <TableCell>Ip</TableCell>
-                        <TableCell>Version</TableCell>
-                        <TableCell>Players Online</TableCell>
-                        <TableCell>Players Max</TableCell>
-                        <TableCell>Blocked</TableCell>
-                        <TableCell>Blocked Time</TableCell>
-                        <TableCell>Offline Mode</TableCell>
-                    </TableRow>
-                    {data.map(data => (
-                        <DataRow data={data} key={data.hostname} />
-                    ))}
-                </TableHead>
-            </Table>
-        </TableContainer>
-    )
-}
 
 const App = () => {
     const [names, setNames] = useState([])
