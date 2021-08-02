@@ -1,8 +1,7 @@
 import React from 'react'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
-import { Button } from '@material-ui/core'
-
+import OfflineButton from './OfflineButton'
 const DataRow = ({ data }) => {
     return (
         <TableRow>
@@ -14,11 +13,8 @@ const DataRow = ({ data }) => {
             <TableCell>{data.playersMax}</TableCell>
             <TableCell>{data.blocked}</TableCell>
             <TableCell>{data.blockTime}</TableCell>
-            <TableCell>
-                <Button variant='contained' color='primary'>
-                    offline?
-                </Button>
-            </TableCell>
+
+            <OfflineButton hostname={data.hostname} />
         </TableRow>
     )
 }
