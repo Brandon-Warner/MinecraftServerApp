@@ -3,11 +3,13 @@ import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import OfflineButton from './OfflineButton'
 
+const DataRow = ({ data, name }) => {
+    console.log('DATAROW DATA: ', data)
+    console.log('DATAROW NAME: ', name)
 
-const DataRow = ({ data }) => {
-    console.log('DATAROW PROPS: ', data)
     return (
-        <TableRow>
+        <TableRow key={name}>
+            <TableCell>{name}</TableCell>
             <TableCell>{data.hostname}</TableCell>
             <TableCell>{data.online}</TableCell>
             <TableCell>{data.ip}</TableCell>

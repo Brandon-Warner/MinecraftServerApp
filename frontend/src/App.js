@@ -13,13 +13,15 @@ import Title from './components/Title'
 import Subtitle from './components/Subtitle'
 import Input from './components/Input'
 import DataRow from './components/DataRow'
-import LinearIndeterminate from './components/Loading'
 import Loading from './components/Loading'
 
 const useStyles = makeStyles(() => ({
     container: {
         fontFamily: 'Roboto',
         border: '0',
+    },
+    headers: {
+        fontStyle: 'bold',
     },
 }))
 
@@ -77,6 +79,7 @@ const App = () => {
                     <Table className={classes.table} aria-label='Server Info'>
                         <TableHead className={classes.headers}>
                             <TableRow key='headers'>
+                                <TableCell>Name</TableCell>
                                 <TableCell>Hostname</TableCell>
                                 <TableCell>Online</TableCell>
                                 <TableCell>Ip</TableCell>
@@ -88,11 +91,13 @@ const App = () => {
                                 <TableCell>Offline Mode</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
+                        <TableBody className={classes.body}>
                             {loading ? (
                                 <Loading />
                             ) : (
-                                data.map(data => <DataRow key={data.hostname} data={data} />)
+                                data
+                                    .sort((a, b) => (a.hostname > b.hostname ? b + 1 : b - 1))
+                                    .map(data => <DataRow key={data.hostname} data={data} />)
                             )}
                         </TableBody>
                     </Table>
