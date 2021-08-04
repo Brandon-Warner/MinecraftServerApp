@@ -2,21 +2,32 @@ import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
 import fetchHelper from './services/servers'
 import { Container, makeStyles } from '@material-ui/core'
-
-import DataTable from './components/DataTable'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
 import Input from './components/Input'
+import DataRow from './components/DataRow'
+import LinearIndeterminate from './components/Loading'
+import Loading from './components/Loading'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(() => ({
     container: {
         fontFamily: 'Roboto',
+        border: '0',
     },
-})
+}))
 
 const App = () => {
     const [names, setNames] = useState([])
     const [data, setData] = useState([])
+    const [loading, setLoading] = useState(false)
+    const classes = useStyles()
 
     useEffect(() => {
         names.map(name =>
@@ -25,12 +36,15 @@ const App = () => {
                 .then(response => setData(data => [...data, response]))
                 .catch(e => console.log('error: ', e.message))
         )
-
         console.log('firing useEffect')
     }, [names])
 
     const handleFileUpload = e => {
         e.preventDefault()
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 5000)
         const file = e.target.files[0]
         const reader = new FileReader()
         reader.onload = e => {
@@ -50,16 +64,39 @@ const App = () => {
         }
         reader.readAsBinaryString(file)
     }
+
     console.log('App component names: ', names)
     console.log('App component data: ', data)
-    const classes = useStyles()
     return (
         <Container className={classes.container}>
             <div>
                 <Title />
                 <Subtitle />
                 <Input onChange={handleFileUpload} />
-                <DataTable names={names} data={data} setData={setData} />
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label='Server Info'>
+                        <TableHead className={classes.headers}>
+                            <TableRow key='headers'>
+                                <TableCell>Hostname</TableCell>
+                                <TableCell>Online</TableCell>
+                                <TableCell>Ip</TableCell>
+                                <TableCell>Version</TableCell>
+                                <TableCell>Players Online</TableCell>
+                                <TableCell>Players Max</TableCell>
+                                <TableCell>Blocked</TableCell>
+                                <TableCell>Blocked Time</TableCell>
+                                <TableCell>Offline Mode</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {loading ? (
+                                <Loading />
+                            ) : (
+                                data.map(data => <DataRow key={data.hostname} data={data} />)
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
         </Container>
     )
