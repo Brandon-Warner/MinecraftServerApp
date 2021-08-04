@@ -79,7 +79,6 @@ const App = () => {
                     <Table className={classes.table} aria-label='Server Info'>
                         <TableHead className={classes.headers}>
                             <TableRow key='headers'>
-                                <TableCell>Name</TableCell>
                                 <TableCell>Hostname</TableCell>
                                 <TableCell>Online</TableCell>
                                 <TableCell>Ip</TableCell>

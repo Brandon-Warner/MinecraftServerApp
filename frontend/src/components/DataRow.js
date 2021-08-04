@@ -9,7 +9,6 @@ const DataRow = ({ data, name }) => {
 
     return (
         <TableRow key={name}>
-            <TableCell>{name}</TableCell>
             <TableCell>{data.hostname}</TableCell>
             <TableCell>{data.online}</TableCell>
             <TableCell>{data.ip}</TableCell>
