@@ -1,19 +1,17 @@
 Tool takes .csv file containing Minecraft server urls and returns data about each server from multiple endpoints.
 Built with React, Material UI, Node.js, and Express library.
 
+The data is specific people who look for blocked Minecraft servers -- the offline mode information lets the user know if the server is in 'offline' mode meaning the server is online, but not 'online'. 
+
 To do: 
 - create hover feature for the 'Offine?' button to display offline data from new third-party API
 - more styling
 
-The app displays this page upon opening: 
+Video of application functionality: 
 
-![Screen Shot 2021-07-29 at 6 12 29 PM](https://user-images.githubusercontent.com/75649322/127585857-29099b7b-3062-417e-9dd3-1322ef2b5016.png)
 
-Uploads a .csv file containing all URLs in a single column (as shown):
 
-<img width="347" alt="Screen Shot 2021-07-29 at 6 13 09 PM" src="https://user-images.githubusercontent.com/75649322/127585897-43ed1709-afb8-446d-b962-4e44b4715e36.png">
+https://user-images.githubusercontent.com/75649322/128272338-2a1d398f-f1b2-42c2-8d8e-2568fd2d4b17.mov
 
-Displays data fetched from the external APIs: 
 
-![Screen Shot 2021-07-29 at 6 23 49 PM](https://user-images.githubusercontent.com/75649322/127585925-8699cfcf-145d-46ac-9839-80cb6efa9b7c.png)
 
