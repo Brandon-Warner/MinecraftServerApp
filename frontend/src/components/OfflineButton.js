@@ -22,7 +22,7 @@ const OfflineButton = ({ hostname }) => {
                 color='primary'
                 onClick={() => fetchData(hostname)}
             >
-                offline?
+                Active?
             </Button>
         </TableCell>
     )
