@@ -1,184 +1,53 @@
 import LinearProgress from '@material-ui/core/LinearProgress'
-import { TableRow, TableCell, TableBody } from '@material-ui/core'
+import { TableRow, TableCell } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 
-const Loading = () => {
+const useStyles = makeStyles(() => ({
+    hidden: {
+        display: 'none',
+    },
+    rows: {
+        backgroundColor: 'white',
+    },
+}))
+
+const Loading = ({ loading }) => {
+    const classes = useStyles()
+    const showWhenLoading = loading ? classes.rows : classes.hidden
+    console.log('showWhenLoading', showWhenLoading)
     return (
-        <TableBody>
-            <TableRow>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-                <TableCell>
-                    <LinearProgress />
-                </TableCell>
-            </TableRow>
-        </TableBody>
+        <TableRow className={`${showWhenLoading}`}>
+            <TableCell>
+                <LinearProgress />
+            </TableCell>
+            <TableCell>
+                <LinearProgress />
+            </TableCell>
+            <TableCell>
+                <LinearProgress />
+            </TableCell>
+            <TableCell>
+                <LinearProgress />
+            </TableCell>
+            <TableCell>
+                <LinearProgress />
+            </TableCell>
+            <TableCell>
+                <LinearProgress />
+            </TableCell>
+            <TableCell>
+                <LinearProgress />
+            </TableCell>
+            <TableCell>
+                <LinearProgress />
+            </TableCell>
+            <TableCell>
+                <LinearProgress />
+            </TableCell>
+            <TableCell>
+                <LinearProgress />
+            </TableCell>
+        </TableRow>
     )
 }
 

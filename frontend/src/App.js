@@ -6,6 +6,7 @@ import Table from '@material-ui/core/Table'
 import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
+import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Title from './components/Title'
@@ -21,7 +22,7 @@ const useStyles = makeStyles(() => ({
     },
     headers: {
         fontStyle: 'bold',
-    },
+    }
 }))
 
 const App = () => {
@@ -68,6 +69,7 @@ const App = () => {
 
     console.log('App component names: ', names)
     console.log('App component data: ', data)
+    console.log('loading status: ', loading)
     return (
         <Container className={classes.container}>
             <div>
@@ -90,14 +92,14 @@ const App = () => {
                                 <TableCell>Offline Mode</TableCell>
                             </TableRow>
                         </TableHead>
-
-                        {loading ? (
-                            <Loading />
-                        ) : (
-                            data
+                        <TableBody>
+                            <Loading loading={loading} />
+                            {data
                                 .sort((a, b) => (a.hostname > b.hostname ? b + 1 : b - 1))
-                                .map(data => <DataRow key={data.hostname} data={data} />)
-                        )}
+                                .map(data => (
+                                    <DataRow key={data.hostname} data={data} loading={loading} />
+                                ))}
+                        </TableBody>
                     </Table>
                 </TableContainer>
             </div>
