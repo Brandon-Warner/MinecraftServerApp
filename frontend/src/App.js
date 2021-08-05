@@ -90,15 +90,14 @@ const App = () => {
                                 <TableCell>Offline Mode</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody className={classes.body}>
-                            {loading ? (
-                                <Loading />
-                            ) : (
-                                data
-                                    .sort((a, b) => (a.hostname > b.hostname ? b + 1 : b - 1))
-                                    .map(data => <DataRow key={data.hostname} data={data} />)
-                            )}
-                        </TableBody>
+
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            data
+                                .sort((a, b) => (a.hostname > b.hostname ? b + 1 : b - 1))
+                                .map(data => <DataRow key={data.hostname} data={data} />)
+                        )}
                     </Table>
                 </TableContainer>
             </div>
