@@ -9,6 +9,7 @@ const DataRow = ({ data, name }) => {
     return (
         <TableBody>
             <TableRow key={name}>
+                <TableCell>{data.name}</TableCell>
                 <TableCell>{data.hostname}</TableCell>
                 <TableCell>{data.online}</TableCell>
                 <TableCell>{data.ip}</TableCell>

@@ -3,7 +3,6 @@ import * as XLSX from 'xlsx'
 import fetchHelper from './services/servers'
 import { Container, makeStyles } from '@material-ui/core'
 import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
@@ -79,6 +78,7 @@ const App = () => {
                     <Table className={classes.table} aria-label='Server Info'>
                         <TableHead className={classes.headers}>
                             <TableRow key='headers'>
+                                <TableCell>Name</TableCell>
                                 <TableCell>Hostname</TableCell>
                                 <TableCell>Online</TableCell>
                                 <TableCell>Ip</TableCell>

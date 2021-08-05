@@ -50,6 +50,7 @@ const fetchData = async name => {
     console.log('fetch data: ', serverInfo, blockInfo)
 
     const allData = {
+        name: name,
         hostname: serverInfo.hostname,
         online: isOnline(serverInfo.online),
         ip: serverInfo.ip,
