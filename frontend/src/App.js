@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
 import fetchHelper from './services/servers'
+import { getNames } from './reducers/namesReducer'
+import { useDispatch, useSelector } from 'react-redux'
+
 import { Container, makeStyles } from '@material-ui/core'
 import Table from '@material-ui/core/Table'
 import TableCell from '@material-ui/core/TableCell'
@@ -26,10 +29,13 @@ const useStyles = makeStyles(() => ({
 }))
 
 const App = () => {
-    const [names, setNames] = useState([])
+    // const [names, setNames] = useState([])
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const classes = useStyles()
+
+    const dispatch = useDispatch()
+    const names = useSelector(state => state)
 
     useEffect(() => {
         names.map(name =>
@@ -48,7 +54,7 @@ const App = () => {
     const handleFileUpload = e => {
         e.preventDefault()
         setLoading(true)
-        
+
         const file = e.target.files[0]
         const reader = new FileReader()
         reader.onload = e => {
@@ -64,7 +70,7 @@ const App = () => {
             // processData(data)
             const list = data.split(/\r\n|\n/)
             const filteredList = list.filter(e => e !== '' && e !== undefined)
-            setNames(filteredList)
+            dispatch(getNames(filteredList))
         }
         reader.readAsBinaryString(file)
     }
