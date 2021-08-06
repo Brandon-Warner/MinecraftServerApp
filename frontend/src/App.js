@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
 import fetchHelper from './services/servers'
 import { getNames } from './reducers/namesReducer'
+import { getData } from './reducers/dataReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Container, makeStyles } from '@material-ui/core'
@@ -30,22 +31,23 @@ const useStyles = makeStyles(() => ({
 
 const App = () => {
     // const [names, setNames] = useState([])
-    const [data, setData] = useState([])
+    // const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const classes = useStyles()
 
     const dispatch = useDispatch()
-    const names = useSelector(state => state)
+    const names = useSelector(state => state.names)
+    const data = useSelector(state => state.data)
 
     useEffect(() => {
         names.map(name =>
             fetchHelper
                 .fetchData(name)
-                .then(response => setData(data => [...data, response]))
+                .then(response => dispatch(getData(response)))
                 .catch(e => console.log('error: ', e.message))
         )
         console.log('firing useEffect')
-    }, [names])
+    }, [names, dispatch])
 
     useEffect(() => {
         stopLoading(names, data)
