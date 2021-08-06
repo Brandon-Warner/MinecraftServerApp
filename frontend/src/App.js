@@ -38,16 +38,17 @@ const App = () => {
                 .then(response => setData(data => [...data, response]))
                 .catch(e => console.log('error: ', e.message))
         )
-        // stopLoading(data, names)
         console.log('firing useEffect')
     }, [names])
+
+    useEffect(() => {
+        stopLoading(names, data)
+    })
 
     const handleFileUpload = e => {
         e.preventDefault()
         setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 5000)
+        
         const file = e.target.files[0]
         const reader = new FileReader()
         reader.onload = e => {
@@ -68,11 +69,11 @@ const App = () => {
         reader.readAsBinaryString(file)
     }
 
-    // const stopLoading = (data, names) => {
-    //     if (data.length > 0 && names.length > 0 && data.length === names.length) {
-    //         setLoading(false)
-    //     }
-    // }
+    const stopLoading = (data, names) => {
+        if (data.length > 0 && names.length > 0 && data.length === names.length) {
+            setLoading(false)
+        }
+    }
 
     console.log('App component names: ', names)
     console.log('App component data: ', data)
