@@ -13,6 +13,9 @@ import TableHead from '@material-ui/core/TableHead'
 import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import TextField from '@material-ui/core/TextField'
+import SearchIcon from '@material-ui/icons/Search'
+
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
 import Input from './components/Input'
@@ -27,11 +30,31 @@ const useStyles = makeStyles(() => ({
     headers: {
         fontStyle: 'bold',
     },
+    filter: {
+        width: '30%',
+    },
 }))
 
+const Filter = props => {
+    const classes = useStyles()
+    const handleChange = e => {
+        e.preventDefault()
+        const filter = e.target.value
+    }
+    return (
+        <form noValidate autoComplete='off'>
+            <TextField
+                className={classes.filter}
+                id='standard-basic'
+                label='Search Names'
+                onChange={handleChange}
+            />
+            <SearchIcon color='primary' />
+        </form>
+    )
+}
+
 const App = () => {
-    // const [names, setNames] = useState([])
-    // const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const classes = useStyles()
 
@@ -92,6 +115,7 @@ const App = () => {
                 <Title />
                 <Subtitle />
                 <Input onChange={handleFileUpload} />
+                <Filter />
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label='Server Info'>
                         <TableHead className={classes.headers}>
