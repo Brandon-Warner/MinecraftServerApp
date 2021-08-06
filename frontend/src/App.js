@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
     },
     headers: {
         fontStyle: 'bold',
-    }
+    },
 }))
 
 const App = () => {
@@ -93,7 +93,10 @@ const App = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <Loading loading={loading} />
+                            {names.map(name => (
+                                <Loading loading={loading} />
+                            ))}
+
                             {data
                                 .sort((a, b) => (a.hostname > b.hostname ? b + 1 : b - 1))
                                 .map(data => (
