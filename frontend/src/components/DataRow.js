@@ -12,9 +12,8 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
-const DataRow = ({ data, name, loading }) => {
+const DataRow = ({ data, loading }) => {
     console.log('DATAROW DATA: ', data)
-    console.log('DATAROW NAME: ', name)
 
     const classes = useStyles()
 
@@ -22,7 +21,7 @@ const DataRow = ({ data, name, loading }) => {
     console.log('hideWhenLoading', hideWhenLoading)
 
     return (
-        <TableRow className={`${hideWhenLoading}`} key={name}>
+        <TableRow className={`${hideWhenLoading}`}>
             <TableCell>{data.name}</TableCell>
             <TableCell>{data.hostname}</TableCell>
             <TableCell>{data.online}</TableCell>
@@ -32,7 +31,7 @@ const DataRow = ({ data, name, loading }) => {
             <TableCell>{data.playersMax}</TableCell>
             <TableCell>{data.blocked}</TableCell>
             <TableCell>{data.blockTime}</TableCell>
-            {data.length === 0 ? null : <OfflineButton hostname={data.hostname} />}
+            <OfflineButton hostname={data.hostname} />
         </TableRow>
     )
 }

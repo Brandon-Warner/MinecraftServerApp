@@ -38,6 +38,7 @@ const App = () => {
                 .then(response => setData(data => [...data, response]))
                 .catch(e => console.log('error: ', e.message))
         )
+        // stopLoading(data, names)
         console.log('firing useEffect')
     }, [names])
 
@@ -66,6 +67,12 @@ const App = () => {
         }
         reader.readAsBinaryString(file)
     }
+
+    // const stopLoading = (data, names) => {
+    //     if (data.length > 0 && names.length > 0 && data.length === names.length) {
+    //         setLoading(false)
+    //     }
+    // }
 
     console.log('App component names: ', names)
     console.log('App component data: ', data)
@@ -98,9 +105,9 @@ const App = () => {
                             ))}
 
                             {data
-                                .sort((a, b) => (a.hostname > b.hostname ? b + 1 : b - 1))
+                                .sort((a, b) => (a.name > b.name ? b - 1 : b + 1))
                                 .map(data => (
-                                    <DataRow key={data.hostname} data={data} loading={loading} />
+                                    <DataRow key={data.name} data={data} loading={loading} />
                                 ))}
                         </TableBody>
                     </Table>
