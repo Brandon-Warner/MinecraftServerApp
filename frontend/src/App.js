@@ -94,7 +94,7 @@ const App = () => {
                         </TableHead>
                         <TableBody>
                             {names.map(name => (
-                                <Loading loading={loading} />
+                                <Loading key={name} loading={loading} />
                             ))}
 
                             {data

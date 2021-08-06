@@ -11,12 +11,12 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
-const Loading = ({ loading }) => {
+const Loading = ({ loading, name }) => {
     const classes = useStyles()
     const showWhenLoading = loading ? classes.rows : classes.hidden
     console.log('showWhenLoading', showWhenLoading)
     return (
-        <TableRow className={`${showWhenLoading}`}>
+        <TableRow key={name} className={`${showWhenLoading}`}>
             <TableCell>
                 <LinearProgress />
             </TableCell>
