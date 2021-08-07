@@ -13,12 +13,15 @@ import TableHead from '@material-ui/core/TableHead'
 import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
-import SearchIcon from '@material-ui/icons/Search'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormControl from '@material-ui/core/FormControl'
 
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
 import Input from './components/Input'
+import Filter from './components/Filter'
 import DataRow from './components/DataRow'
 import Loading from './components/Loading'
 
@@ -30,27 +33,32 @@ const useStyles = makeStyles(() => ({
     headers: {
         fontStyle: 'bold',
     },
-    filter: {
-        width: '30%',
+    filterRow: {
+        display: 'flex',
+        flexDirection: 'row',
     },
+    filter: {},
 }))
 
-const Filter = props => {
+const FilterCheckBox = () => {
     const classes = useStyles()
-    const handleChange = e => {
-        e.preventDefault()
-        const filter = e.target.value
-    }
     return (
-        <form noValidate autoComplete='off'>
-            <TextField
-                className={classes.filter}
-                id='standard-basic'
-                label='Search Names'
-                onChange={handleChange}
-            />
-            <SearchIcon color='primary' />
-        </form>
+        <FormControl className={classes.filter} component='fieldset'>
+            <RadioGroup row aria-label='position' name='position' defaultValue='top'>
+                <FormControlLabel
+                    value='FILTER_BLOCKED'
+                    control={<Radio color='primary' />}
+                    label='Blocked'
+                    labelPlacement='top'
+                />
+                <FormControlLabel
+                    value='FILTER_AVAILABLE'
+                    control={<Radio color='primary' />}
+                    label='Available'
+                    labelPlacement='top'
+                />
+            </RadioGroup>
+        </FormControl>
     )
 }
 
@@ -61,7 +69,7 @@ const App = () => {
     const dispatch = useDispatch()
     const names = useSelector(state => state.names)
     const data = useSelector(state => state.data)
-
+    // const filter = useSelector(state => state.filter)
     useEffect(() => {
         names.map(name =>
             fetchHelper
@@ -92,7 +100,7 @@ const App = () => {
             // CONVERT ARRAY OF ARRAYS
             const data = XLSX.utils.sheet_to_csv(ws, { header: 1 })
             console.log('data from file upload: ', data)
-            // processData(data)
+
             const list = data.split(/\r\n|\n/)
             const filteredList = list.filter(e => e !== '' && e !== undefined)
             dispatch(getNames(filteredList))
@@ -109,15 +117,19 @@ const App = () => {
     console.log('App component names: ', names)
     console.log('App component data: ', data)
     console.log('loading status: ', loading)
+
     return (
         <Container className={classes.container}>
             <div>
                 <Title />
                 <Subtitle />
                 <Input onChange={handleFileUpload} />
-                <Filter />
+                <div className={classes.filterRow}>
+                    <Filter />
+                    <FilterCheckBox />
+                </div>
                 <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label='Server Info'>
+                    <Table className={classes.table} aria-label='Server Info' stickyHeader>
                         <TableHead className={classes.headers}>
                             <TableRow key='headers'>
                                 <TableCell>Name</TableCell>
@@ -137,11 +149,9 @@ const App = () => {
                                 <Loading key={name} loading={loading} />
                             ))}
 
-                            {data
-                                .sort((a, b) => (a.name > b.name ? b - 1 : b + 1))
-                                .map(data => (
-                                    <DataRow key={data.name} data={data} loading={loading} />
-                                ))}
+                            {data.map(data => (
+                                <DataRow key={data.name} data={data} loading={loading} />
+                            ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
