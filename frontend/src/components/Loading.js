@@ -14,7 +14,6 @@ const useStyles = makeStyles(() => ({
 const Loading = ({ loading, name }) => {
     const classes = useStyles()
     const showWhenLoading = loading ? classes.rows : classes.hidden
-    console.log('showWhenLoading', showWhenLoading)
     return (
         <TableRow key={name} className={`${showWhenLoading}`}>
             <TableCell>

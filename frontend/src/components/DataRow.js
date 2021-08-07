@@ -1,6 +1,6 @@
 import React from 'react'
 import { TableRow, TableCell } from '@material-ui/core'
-import OfflineButton from './OfflineButton'
+import OfflineButton from './ActiveButton'
 import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(() => ({
@@ -18,7 +18,6 @@ const DataRow = ({ data, loading }) => {
     const classes = useStyles()
 
     const hideWhenLoading = loading ? classes.hidden : classes.rows
-    console.log('hideWhenLoading', hideWhenLoading)
 
     return (
         <TableRow className={`${hideWhenLoading}`}>
