@@ -3,7 +3,6 @@ import * as XLSX from 'xlsx'
 import fetchHelper from './services/servers'
 import { getNames } from './reducers/namesReducer'
 import { getData } from './reducers/dataReducer'
-import { setFilter } from './reducers/filterReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Container, makeStyles } from '@material-ui/core'
@@ -14,15 +13,13 @@ import TableHead from '@material-ui/core/TableHead'
 import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormControl from '@material-ui/core/FormControl'
+
 
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
 import Input from './components/Input'
-import Filter from './components/Filter'
+import Filter from './components/FilterSearch'
+import FilterCheckBox from './components/FilterCheckBox'
 import DataRow from './components/DataRow'
 import Loading from './components/Loading'
 
@@ -43,37 +40,37 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
-const FilterCheckBox = () => {
-    const classes = useStyles()
-    const dispatch = useDispatch()
-    return (
-        <FormControl className={classes.filter} component='fieldset'>
-            <RadioGroup row aria-label='position' name='position' defaultValue='top'>
-                <FormControlLabel
-                    value='NO_FILTER'
-                    control={<Radio color='primary' />}
-                    label='All'
-                    labelPlacement='top'
-                    onClick={() => dispatch(setFilter('NO_FILTER'))}
-                />
-                <FormControlLabel
-                    value='BLOCKED_FILTER'
-                    control={<Radio color='primary' />}
-                    label='Blocked'
-                    labelPlacement='top'
-                    onClick={() => dispatch(setFilter('BLOCKED_FILTER'))}
-                />
-                <FormControlLabel
-                    value='AVAILABLE_FILTER'
-                    control={<Radio color='primary' />}
-                    label='Available'
-                    labelPlacement='top'
-                    onClick={() => dispatch(setFilter('AVAILABLE_FILTER'))}
-                />
-            </RadioGroup>
-        </FormControl>
-    )
-}
+// const FilterCheckBox = () => {
+//     const classes = useStyles()
+//     const dispatch = useDispatch()
+//     return (
+//         <FormControl className={classes.filter} component='fieldset'>
+//             <RadioGroup row aria-label='position' name='position' defaultValue='top'>
+//                 <FormControlLabel
+//                     value='NO_FILTER'
+//                     control={<Radio color='primary' />}
+//                     label='All'
+//                     labelPlacement='top'
+//                     onClick={() => dispatch(setFilter('NO_FILTER'))}
+//                 />
+//                 <FormControlLabel
+//                     value='BLOCKED_FILTER'
+//                     control={<Radio color='primary' />}
+//                     label='Blocked'
+//                     labelPlacement='top'
+//                     onClick={() => dispatch(setFilter('BLOCKED_FILTER'))}
+//                 />
+//                 <FormControlLabel
+//                     value='AVAILABLE_FILTER'
+//                     control={<Radio color='primary' />}
+//                     label='Available'
+//                     labelPlacement='top'
+//                     onClick={() => dispatch(setFilter('AVAILABLE_FILTER'))}
+//                 />
+//             </RadioGroup>
+//         </FormControl>
+//     )
+// }
 
 const App = () => {
     const [loading, setLoading] = useState(false)
@@ -89,7 +86,11 @@ const App = () => {
             return state.data.filter(data => data.blocked === 'yes')
         } else if (filter === 'AVAILABLE_FILTER') {
             return state.data.filter(data => data.blocked === 'no')
-        } else if (filter !== 'NO_FILTER' && filter !== 'BLOCKED_FILTER' && 'AVAILABLE_FILTER') {
+        } else if (
+            filter !== 'NO_FILTER' &&
+            filter !== 'BLOCKED_FILTER' &&
+            filter !== 'AVAILABLE_FILTER'
+        ) {
             return state.data.filter(data => data.name.toLowerCase().includes(filter.toLowerCase()))
         }
     })
@@ -150,7 +151,7 @@ const App = () => {
                 <Input onChange={handleFileUpload} />
                 <div className={classes.filterRow}>
                     <Filter />
-                    <FilterCheckBox />
+                    <FilterCheckBox classes={classes}/>
                 </div>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label='Server Info' stickyHeader>
