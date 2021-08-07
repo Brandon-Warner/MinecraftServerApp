@@ -3,6 +3,7 @@ import * as XLSX from 'xlsx'
 import fetchHelper from './services/servers'
 import { getNames } from './reducers/namesReducer'
 import { getData } from './reducers/dataReducer'
+import { setFilter } from './reducers/filterReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Container, makeStyles } from '@material-ui/core'
@@ -37,25 +38,37 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'row',
     },
-    filter: {},
+    filter: {
+        margin: '0 auto',
+    },
 }))
 
 const FilterCheckBox = () => {
     const classes = useStyles()
+    const dispatch = useDispatch()
     return (
         <FormControl className={classes.filter} component='fieldset'>
             <RadioGroup row aria-label='position' name='position' defaultValue='top'>
                 <FormControlLabel
-                    value='FILTER_BLOCKED'
+                    value='NO_FILTER'
+                    control={<Radio color='primary' />}
+                    label='All'
+                    labelPlacement='top'
+                    onClick={() => dispatch(setFilter('NO_FILTER'))}
+                />
+                <FormControlLabel
+                    value='BLOCKED_FILTER'
                     control={<Radio color='primary' />}
                     label='Blocked'
                     labelPlacement='top'
+                    onClick={() => dispatch(setFilter('BLOCKED_FILTER'))}
                 />
                 <FormControlLabel
-                    value='FILTER_AVAILABLE'
+                    value='AVAILABLE_FILTER'
                     control={<Radio color='primary' />}
                     label='Available'
                     labelPlacement='top'
+                    onClick={() => dispatch(setFilter('AVAILABLE_FILTER'))}
                 />
             </RadioGroup>
         </FormControl>
@@ -67,9 +80,18 @@ const App = () => {
     const classes = useStyles()
 
     const dispatch = useDispatch()
+    const filter = useSelector(state => state.filter)
     const names = useSelector(state => state.names)
-    const data = useSelector(state => state.data)
-    // const filter = useSelector(state => state.filter)
+    const data = useSelector(state => {
+        if (filter === 'NO_FILTER') {
+            return state.data
+        } else if (filter === 'BLOCKED_FILTER') {
+            return state.data.filter(data => data.blocked === 'yes')
+        } else if (filter === 'AVAILABLE_FILTER') {
+            return state.data.filter(data => data.blocked === 'no')
+        }
+    })
+
     useEffect(() => {
         names.map(name =>
             fetchHelper

@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
         width: '33%',
     },
     search: {
-        width: '50%',
+        width: '75%',
     },
 }))
 
@@ -26,7 +26,12 @@ const Filter = () => {
     }
     return (
         <form className={classes.filter} noValidate autoComplete='off'>
-            <TextField className={classes.search}id='standard-basic' label='Search Names' onChange={handleChange} />
+            <TextField
+                className={classes.search}
+                id='standard-basic'
+                label='Search Names'
+                onChange={handleChange}
+            />
             <SearchIcon color='primary' />
         </form>
     )
