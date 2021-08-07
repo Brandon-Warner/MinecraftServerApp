@@ -1,6 +1,6 @@
-export const createFilter = filter => {
+export const searchFilter = filter => {
     return {
-        type: 'ACTIVATE_FILTER',
+        type: 'TEXT_FILTER',
         data: filter,
     }
 }
@@ -21,7 +21,7 @@ export const setFilter = filter => {
 const filterReducer = (state = 'NO_FILTER', action) => {
     console.log('ACTION DATA: ', action.data)
     switch (action.type) {
-        case 'ACTIVATE_FILTER':
+        case 'TEXT_FILTER':
             return action.data
         case 'SET_FILTER':
             return action.data

@@ -1,5 +1,5 @@
 import React from 'react'
-import { createFilter } from '../reducers/filterReducer'
+import { searchFilter } from '../reducers/filterReducer'
 import { useDispatch } from 'react-redux'
 
 import TextField from '@material-ui/core/TextField'
@@ -22,7 +22,7 @@ const Filter = () => {
     const handleChange = e => {
         e.preventDefault()
         const filter = e.target.value
-        dispatch(createFilter(filter))
+        dispatch(searchFilter(filter))
     }
     return (
         <form className={classes.filter} noValidate autoComplete='off'>

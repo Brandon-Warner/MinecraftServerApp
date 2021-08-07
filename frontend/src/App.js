@@ -89,6 +89,8 @@ const App = () => {
             return state.data.filter(data => data.blocked === 'yes')
         } else if (filter === 'AVAILABLE_FILTER') {
             return state.data.filter(data => data.blocked === 'no')
+        } else if (filter !== 'NO_FILTER' && filter !== 'BLOCKED_FILTER' && 'AVAILABLE_FILTER') {
+            return state.data.filter(data => data.name.toLowerCase().includes(filter.toLowerCase()))
         }
     })
 
