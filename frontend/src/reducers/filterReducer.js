@@ -12,14 +12,7 @@ export const setFilter = filter => {
     }
 }
 
-// export const noFilter = () => {
-//     return {
-//         type: 'NO_FILTER',
-//     }
-// }
-
 const filterReducer = (state = 'NO_FILTER', action) => {
-    console.log('ACTION DATA: ', action.data)
     switch (action.type) {
         case 'TEXT_FILTER':
             return action.data

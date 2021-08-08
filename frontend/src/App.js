@@ -14,7 +14,6 @@ import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
-
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
 import Input from './components/Input'
@@ -35,8 +34,20 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'row',
     },
-    filter: {
+    filterCheckBox: {
         margin: '0 auto',
+    },
+    filterTextField: {
+        width: '33%',
+    },
+    filterSearch: {
+        width: '75%',
+    },
+    hidden: {
+        display: 'none',
+    },
+    rows: {
+        backgroundColor: 'white',
     },
 }))
 
@@ -118,8 +129,8 @@ const App = () => {
                 <Subtitle />
                 <Input onChange={handleFileUpload} />
                 <div className={classes.filterRow}>
-                    <Filter />
-                    <FilterCheckBox classes={classes}/>
+                    <Filter classes={classes} />
+                    <FilterCheckBox classes={classes} />
                 </div>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label='Server Info' stickyHeader>
@@ -139,11 +150,16 @@ const App = () => {
                         </TableHead>
                         <TableBody>
                             {names.map(name => (
-                                <Loading key={name} loading={loading} />
+                                <Loading key={name} loading={loading} classes={classes} />
                             ))}
 
                             {data.map(data => (
-                                <DataRow key={data.name} data={data} loading={loading} />
+                                <DataRow
+                                    key={data.name}
+                                    data={data}
+                                    loading={loading}
+                                    classes={classes}
+                                />
                             ))}
                         </TableBody>
                     </Table>
