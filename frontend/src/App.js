@@ -49,6 +49,11 @@ const useStyles = makeStyles(() => ({
     rows: {
         backgroundColor: 'white',
     },
+    modalStyle: {
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%',
+    },
 }))
 
 const App = () => {
@@ -133,7 +138,7 @@ const App = () => {
                     <FilterCheckBox classes={classes} />
                 </div>
                 <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label='Server Info' stickyHeader>
+                    <Table className={classes.table} aria-label='Server Info'>
                         <TableHead className={classes.headers}>
                             <TableRow key='headers'>
                                 <TableCell>Name</TableCell>

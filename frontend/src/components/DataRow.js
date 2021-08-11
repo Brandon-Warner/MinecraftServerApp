@@ -1,6 +1,6 @@
 import React from 'react'
 import { TableRow, TableCell } from '@material-ui/core'
-import OfflineButton from './ActiveButton'
+import ActiveButton from './ActiveButton'
 
 const DataRow = ({ data, loading, classes }) => {
     console.log('DATAROW DATA: ', data)
@@ -18,7 +18,7 @@ const DataRow = ({ data, loading, classes }) => {
             <TableCell>{data.playersMax}</TableCell>
             <TableCell>{data.blocked}</TableCell>
             <TableCell>{data.blockTime}</TableCell>
-            <OfflineButton hostname={data.hostname} />
+            <ActiveButton classes={classes} hostname={data.hostname} />
         </TableRow>
     )
 }
