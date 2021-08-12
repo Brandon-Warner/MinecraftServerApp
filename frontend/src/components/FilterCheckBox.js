@@ -1,12 +1,15 @@
 import { useDispatch } from 'react-redux'
 import { setFilter } from '../reducers/filterReducer'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormControl from '@material-ui/core/FormControl'
+import { makeStyles, Radio, RadioGroup, FormControl, FormControlLabel } from '@material-ui/core'
 
-const FilterCheckBox = ({ classes }) => {
-    // const classes = useStyles()
+const useStyles = makeStyles(() => ({
+    filterCheckBox: {
+        margin: '0 auto',
+    },
+}))
+
+const FilterCheckBox = () => {
+    const classes = useStyles()
     const dispatch = useDispatch()
     return (
         <FormControl className={classes.filterCheckBox} component='fieldset'>

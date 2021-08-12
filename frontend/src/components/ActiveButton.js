@@ -1,12 +1,20 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Button, TableCell, CircularProgress } from '@material-ui/core'
+import { makeStyles, Button, TableCell, CircularProgress } from '@material-ui/core'
 import Modal from 'react-modal'
 
-const ActiveButton = ({ hostname, classes }) => {
+const useStyles = makeStyles(() => ({
+    buttonLoading: {
+        color: 'white',
+    },
+}))
+
+const ActiveButton = ({ hostname }) => {
     const [open, setOpen] = useState(false)
     const [buttonLoading, setButtonLoading] = useState(false)
     const [fetchResponse, setFetchResponse] = useState('')
+
+    const classes = useStyles()
 
     const customStyles = {
         content: {
@@ -59,7 +67,7 @@ const ActiveButton = ({ hostname, classes }) => {
                     ariaHideApp={false}
                     style={customStyles}
                 >
-                    <h2>Is Server Active?</h2>
+                    <h2>Active Status</h2>
                     {fetchResponse}
                     <br />
                     <br />

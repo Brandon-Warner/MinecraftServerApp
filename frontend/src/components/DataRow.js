@@ -1,9 +1,19 @@
 import React from 'react'
-import { TableRow, TableCell } from '@material-ui/core'
+import { makeStyles, TableRow, TableCell } from '@material-ui/core'
 import ActiveButton from './ActiveButton'
 
-const DataRow = ({ data, loading, classes }) => {
+const useStyles = makeStyles(() => ({
+    hidden: {
+        display: 'none',
+    },
+    rows: {
+        backgroundColor: 'white',
+    },
+}))
+
+const DataRow = ({ data, loading }) => {
     console.log('DATAROW DATA: ', data)
+    const classes = useStyles()
 
     const hideWhenLoading = loading ? classes.hidden : classes.rows
 
@@ -18,7 +28,7 @@ const DataRow = ({ data, loading, classes }) => {
             <TableCell>{data.playersMax}</TableCell>
             <TableCell>{data.blocked}</TableCell>
             <TableCell>{data.blockTime}</TableCell>
-            <ActiveButton classes={classes} hostname={data.hostname} />
+            <ActiveButton hostname={data.hostname} />
         </TableRow>
     )
 }

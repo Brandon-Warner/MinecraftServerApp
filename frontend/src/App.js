@@ -37,32 +37,6 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'row',
     },
-    filterCheckBox: {
-        margin: '0 auto',
-    },
-    filterTextField: {
-        width: '33%',
-    },
-    filterSearch: {
-        width: '75%',
-    },
-    hidden: {
-        display: 'none',
-    },
-    rows: {
-        backgroundColor: 'white',
-    },
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-    },
-    buttonLoading: {
-        color: 'white',
-    },
 }))
 
 const App = () => {
@@ -143,11 +117,11 @@ const App = () => {
                 <Subtitle />
                 <Input onChange={handleFileUpload} />
                 <div className={classes.filterRow}>
-                    <Filter classes={classes} />
-                    <FilterCheckBox classes={classes} />
+                    <Filter />
+                    <FilterCheckBox />
                 </div>
                 <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label='Server Info'>
+                    <Table aria-label='Server Info'>
                         <TableHead className={classes.headers}>
                             <TableRow key='headers'>
                                 <TableCell>Name</TableCell>
@@ -164,16 +138,11 @@ const App = () => {
                         </TableHead>
                         <TableBody>
                             {names.map(name => (
-                                <Loading key={name} loading={loading} classes={classes} />
+                                <Loading key={name} loading={loading} />
                             ))}
 
                             {data.map(data => (
-                                <DataRow
-                                    key={data.name}
-                                    data={data}
-                                    loading={loading}
-                                    classes={classes}
-                                />
+                                <DataRow key={data.name} data={data} loading={loading} />
                             ))}
                         </TableBody>
                     </Table>
