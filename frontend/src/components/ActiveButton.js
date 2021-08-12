@@ -29,16 +29,35 @@ const ActiveButton = ({ hostname, classes }) => {
     }
     console.log('fetchResponse: ', fetchResponse)
 
+    const customStyles = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+        },
+    }
+
     return (
         <TableCell>
             <Button variant='contained' color='primary' onClick={() => fetchData(hostname)}>
                 Active?
             </Button>
             <div>
-                <Modal isOpen={open} onRequestClose={() => setOpen(false)} ariaHideApp={false}>
+                <Modal
+                    isOpen={open}
+                    onRequestClose={() => setOpen(false)}
+                    ariaHideApp={false}
+                    style={customStyles}
+                >
                     <h2>Is Server Active?</h2>
                     {fetchResponse}
-                    <button onClick={() => setOpen(!open)}>close</button>
+                    <br />
+                    <Button variant='outlined' color='secondary' onClick={() => setOpen(!open)}>
+                        close
+                    </Button>
                 </Modal>
             </div>
         </TableCell>
