@@ -8,6 +8,18 @@ const ActiveButton = ({ hostname, classes }) => {
     const [buttonLoading, setButtonLoading] = useState(false)
     const [fetchResponse, setFetchResponse] = useState('')
 
+    const customStyles = {
+        content: {
+            fontFamily: 'Roboto',
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+        },
+    }
+
     const fetchData = async hostname => {
         setButtonLoading(true)
         try {
@@ -34,18 +46,6 @@ const ActiveButton = ({ hostname, classes }) => {
         setButtonLoading(false)
     }
     console.log('fetchResponse: ', fetchResponse)
-
-    const customStyles = {
-        content: {
-            fontFamily: 'Roboto',
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-        },
-    }
 
     return (
         <TableCell>
