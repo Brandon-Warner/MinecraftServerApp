@@ -5,14 +5,17 @@ import { getNames } from './reducers/namesReducer'
 import { getData } from './reducers/dataReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Container, makeStyles } from '@material-ui/core'
-import Table from '@material-ui/core/Table'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import TableBody from '@material-ui/core/TableBody'
-import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
+import {
+    Container,
+    makeStyles,
+    Table,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableBody,
+    TableRow,
+    Paper,
+} from '@material-ui/core'
 
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
