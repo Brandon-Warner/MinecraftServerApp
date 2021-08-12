@@ -1,36 +1,43 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import TableCell from '@material-ui/core/TableCell'
-import { Button } from '@material-ui/core'
+import { Button, TableCell, CircularProgress } from '@material-ui/core'
 import Modal from 'react-modal'
 
 const ActiveButton = ({ hostname, classes }) => {
     const [open, setOpen] = useState(false)
+    const [buttonLoading, setButtonLoading] = useState(false)
     const [fetchResponse, setFetchResponse] = useState('')
 
     const fetchData = async hostname => {
-        const data = await axios.get(`http://localhost:8080/api/offlineinfo/${hostname}`)
-        const response = data.data
-        console.log('ACTIVE BUTTON response: ', response)
-        if (!response.success) {
-            setFetchResponse('Error while checking offline-mode status')
-        } else if (response.offlineMode) {
-            setFetchResponse('Server is using offline mode')
-        } else {
-            setFetchResponse(
-                "Server aborted the join process, it's either using online mode or a whitelist"
-            )
-            if (response.reason) {
-                fetchResponse.concat(`reason was: ${response.reason}`)
+        setButtonLoading(true)
+        try {
+            const data = await axios.get(`http://localhost:8080/api/offlineinfo/${hostname}`)
+            const response = data.data
+            console.log('ACTIVE BUTTON response: ', response)
+            if (!response.success) {
+                setFetchResponse('Error while checking offline-mode status')
+            } else if (response.offlineMode) {
+                setFetchResponse('Server is using offline mode')
+            } else {
+                setFetchResponse(
+                    "Server aborted the join process, it's either using online mode or a whitelist"
+                )
+                if (response.reason) {
+                    fetchResponse.concat(`reason was: ${response.reason}`)
+                }
             }
+        } catch (error) {
+            setFetchResponse('error connecting to server - please try again later')
         }
 
         setOpen(!open)
+        setButtonLoading(false)
     }
     console.log('fetchResponse: ', fetchResponse)
 
     const customStyles = {
         content: {
+            fontFamily: 'Roboto',
             top: '50%',
             left: '50%',
             right: 'auto',
@@ -43,7 +50,7 @@ const ActiveButton = ({ hostname, classes }) => {
     return (
         <TableCell>
             <Button variant='contained' color='primary' onClick={() => fetchData(hostname)}>
-                Active?
+                {buttonLoading ? <CircularProgress className={classes.buttonLoading} /> : 'Active?'}
             </Button>
             <div>
                 <Modal
@@ -55,7 +62,13 @@ const ActiveButton = ({ hostname, classes }) => {
                     <h2>Is Server Active?</h2>
                     {fetchResponse}
                     <br />
-                    <Button variant='outlined' color='secondary' onClick={() => setOpen(!open)}>
+                    <br />
+                    <Button
+                        variant='outlined'
+                        color='secondary'
+                        size='small'
+                        onClick={() => setOpen(!open)}
+                    >
                         close
                     </Button>
                 </Modal>
