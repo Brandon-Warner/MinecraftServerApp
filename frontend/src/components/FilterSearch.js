@@ -5,29 +5,17 @@ import { useDispatch } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
 import SearchIcon from '@material-ui/icons/Search'
 
-import { makeStyles } from '@material-ui/core'
-
-const useStyles = makeStyles(() => ({
-    filter: {
-        width: '33%',
-    },
-    search: {
-        width: '75%',
-    },
-}))
-
-const Filter = () => {
+const Filter = ({ classes }) => {
     const dispatch = useDispatch()
-    const classes = useStyles()
     const handleChange = e => {
         e.preventDefault()
         const filter = e.target.value
         dispatch(searchFilter(filter))
     }
     return (
-        <form className={classes.filter} noValidate autoComplete='off'>
+        <form className={classes.filterSearch} noValidate autoComplete='off'>
             <TextField
-                className={classes.search}
+                className={classes.filterTextField}
                 id='standard-basic'
                 label='Search Names'
                 onChange={handleChange}

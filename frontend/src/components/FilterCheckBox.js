@@ -9,7 +9,7 @@ const FilterCheckBox = ({ classes }) => {
     // const classes = useStyles()
     const dispatch = useDispatch()
     return (
-        <FormControl className={classes.filter} component='fieldset'>
+        <FormControl className={classes.filterCheckBox} component='fieldset'>
             <RadioGroup row aria-label='position' name='position' defaultValue='top'>
                 <FormControlLabel
                     value='NO_FILTER'

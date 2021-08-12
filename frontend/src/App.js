@@ -14,7 +14,6 @@ import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
-
 import Title from './components/Title'
 import Subtitle from './components/Subtitle'
 import Input from './components/Input'
@@ -35,42 +34,33 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'row',
     },
-    filter: {
+    filterCheckBox: {
         margin: '0 auto',
     },
+    filterTextField: {
+        width: '33%',
+    },
+    filterSearch: {
+        width: '75%',
+    },
+    hidden: {
+        display: 'none',
+    },
+    rows: {
+        backgroundColor: 'white',
+    },
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+    },
+    buttonLoading: {
+        color: 'white',
+    },
 }))
-
-// const FilterCheckBox = () => {
-//     const classes = useStyles()
-//     const dispatch = useDispatch()
-//     return (
-//         <FormControl className={classes.filter} component='fieldset'>
-//             <RadioGroup row aria-label='position' name='position' defaultValue='top'>
-//                 <FormControlLabel
-//                     value='NO_FILTER'
-//                     control={<Radio color='primary' />}
-//                     label='All'
-//                     labelPlacement='top'
-//                     onClick={() => dispatch(setFilter('NO_FILTER'))}
-//                 />
-//                 <FormControlLabel
-//                     value='BLOCKED_FILTER'
-//                     control={<Radio color='primary' />}
-//                     label='Blocked'
-//                     labelPlacement='top'
-//                     onClick={() => dispatch(setFilter('BLOCKED_FILTER'))}
-//                 />
-//                 <FormControlLabel
-//                     value='AVAILABLE_FILTER'
-//                     control={<Radio color='primary' />}
-//                     label='Available'
-//                     labelPlacement='top'
-//                     onClick={() => dispatch(setFilter('AVAILABLE_FILTER'))}
-//                 />
-//             </RadioGroup>
-//         </FormControl>
-//     )
-// }
 
 const App = () => {
     const [loading, setLoading] = useState(false)
@@ -150,11 +140,11 @@ const App = () => {
                 <Subtitle />
                 <Input onChange={handleFileUpload} />
                 <div className={classes.filterRow}>
-                    <Filter />
-                    <FilterCheckBox classes={classes}/>
+                    <Filter classes={classes} />
+                    <FilterCheckBox classes={classes} />
                 </div>
                 <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label='Server Info' stickyHeader>
+                    <Table className={classes.table} aria-label='Server Info'>
                         <TableHead className={classes.headers}>
                             <TableRow key='headers'>
                                 <TableCell>Name</TableCell>
@@ -171,11 +161,16 @@ const App = () => {
                         </TableHead>
                         <TableBody>
                             {names.map(name => (
-                                <Loading key={name} loading={loading} />
+                                <Loading key={name} loading={loading} classes={classes} />
                             ))}
 
                             {data.map(data => (
-                                <DataRow key={data.name} data={data} loading={loading} />
+                                <DataRow
+                                    key={data.name}
+                                    data={data}
+                                    loading={loading}
+                                    classes={classes}
+                                />
                             ))}
                         </TableBody>
                     </Table>
